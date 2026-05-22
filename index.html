@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Tarek Otero | Children's Book Author – The Whispering Lantern</title>
+  <meta name="description" content="Official website of Tarek Otero, award-winning children's book author of 'The Whispering Lantern & the Star Compass'. Discover illustrations, memoir, and magical storytelling.">
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: #FFFFFF;
+      font-family: 'Inter', sans-serif;
+      color: #1E2A3A;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #F8F6F2; }
+    ::-webkit-scrollbar-thumb { background: #C9A227; border-radius: 10px; }
+
+    h1, h2, h3, .serif {
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 6%;
+    }
+    /* --- Glass Navbar --- */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      backdrop-filter: blur(18px);
+      background: rgba(255, 255, 255, 0.85);
+      z-index: 1000;
+      transition: all 0.25s ease;
+      border-bottom: 1px solid gray;
+      padding: 1rem 2rem;
+    }
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #153862;
+      letter-spacing: -0.3px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2.2rem;
+    }
+    .nav-links a {
+      text-decoration: none;
+      font-weight: 500;
+      color: #2c3e4e;
+      transition: 0.2s;
+      font-size: 0.98rem;
+    }
+    .nav-links a:hover { color: #C9A227; transform: translateY(-1px);}
+    .hamburger {
+      display: none;
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: #153862;
+    }
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: #FFFFFF;
+      z-index: 2000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+      transform: translateX(100%);
+      transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.4, 1);
+    }
+    .mobile-menu.active { transform: translateX(0); }
+    .mobile-menu a {
+      font-size: 2rem;
+      font-family: 'Playfair Display', serif;
+      text-decoration: none;
+      color: #153862;
+    }
+    .close-menu {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      font-size: 2rem;
+      cursor: pointer;
+    }
+    /* sections spacing */
+    section {
+      padding: 40px 0;
+      position: relative;
+    }
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      padding-top: 100px;
+      align-items: center;
+      background: radial-gradient(circle at 10% 30%, rgba(248,246,242,0.4) 0%, #FFFFFF 80%);
+    }
+    .hero-grid {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 4rem;
+    }
+    .hero-content { flex: 1.2; }
+    .hero-cover { flex: 0.9; perspective: 900px; }
+    .hero-cover img {
+      width: 100%;
+      border-radius: 32px;
+      box-shadow: 0 35px 45px -20px rgba(0,0,0,0.25);
+      transition: transform 0.5s ease;
+    }
+    .hero-cover img:hover { transform: rotate(1deg) scale(1.01);}
+    .floating-illustrations {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .float-img {
+      position: absolute;
+      width: 100px;
+      opacity: 0.3;
+      border-radius: 28px;
+      animation: float 11s infinite ease-in-out;
+      filter: drop-shadow(0 12px 15px rgba(0,0,0,0.08));
+    }
+    @keyframes float {
+      0% { transform: translateY(0px) rotate(0deg);}
+      50% { transform: translateY(-20px) rotate(3deg);}
+      100% { transform: translateY(0px) rotate(0deg);}
+    }
+    .btn-group {
+      display: flex;
+      gap: 1.2rem;
+      margin-top: 2.5rem;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      background: #153862;
+      color: white;
+      border: none;
+      padding: 0.9rem 2.2rem;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+      display: inline-block;
+      text-decoration: none;
+    }
+    .btn-secondary {
+      background: transparent;
+      border: 1.5px solid #C9A227;
+      color: #153862;
+      padding: 0.9rem 2rem;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+    .btn-primary:hover { background: #0e2a48; transform: scale(1.02);}
+    .btn-secondary:hover { background: #C9A22710; border-color: #b38f1f;}
+
+    .split-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .quote-handwritten {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.7rem;
+      color: #C9A227;
+      border-left: 4px solid #C9A227;
+      padding-left: 1.5rem;
+      margin: 1.5rem 0;
+    }
+    .book-stats {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin: 2rem 0 1rem;
+    }
+    .stat-badge {
+      background: #F8F6F2;
+      padding: 0.4rem 1.2rem;
+      border-radius: 60px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+    .gallery-masonry {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.8rem;
+      margin-top: 3rem;
+    }
+    .gallery-card {
+      background: #FFFFFF;
+      border-radius: 32px;
+      overflow: hidden;
+      transition: all 0.35s cubic-bezier(0.2, 0.9, 0.4, 1);
+      box-shadow: 0 12px 28px -10px rgba(0,0,0,0.05);
+    }
+    .gallery-card img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+      display: block;
+    }
+    .gallery-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 25px 35px -12px rgba(0,0,0,0.12);
+    }
+    .gallery-card:hover img { transform: scale(1.02);}
+    .caption {
+      padding: 1rem 1.2rem;
+      font-size: 0.85rem;
+      color: #6B7280;
+    }
+    .story-alternate {
+      display: flex;
+      flex-direction: column;
+      gap: 5rem;
+    }
+    .story-row {
+      display: flex;
+      gap: 3rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .story-img { flex: 1; border-radius: 36px; overflow: hidden; box-shadow: 0 20px 30px -12px rgba(0,0,0,0.08);}
+    .story-text { flex: 1; }
+    .story-row.reverse { flex-direction: row-reverse; }
+    .memoir-section {
+      background: #F8F6F2;
+      position: relative;
+    }
+    .memoir-card {
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(4px);
+      border-radius: 56px;
+      padding: 3rem 3rem;
+      max-width: 1000px;
+      margin: 0 auto;
+      box-shadow: 0 25px 45px -12px rgba(0,0,0,0.08);
+    }
+    .contact-form {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    .form-group {
+      margin-bottom: 1.8rem;
+      position: relative;
+    }
+    .form-group input, .form-group textarea {
+      width: 100%;
+      padding: 1rem 1rem;
+      border: 1px solid #E2E2DC;
+      border-radius: 30px;
+      font-family: 'Inter', sans-serif;
+      background: white;
+      font-size: 1rem;
+    }
+    .floating-label {
+      position: absolute;
+      left: 1rem;
+      top: 1rem;
+      transition: 0.2s;
+      pointer-events: none;
+      color: #9ca3af;
+    }
+    .form-group input:focus ~ .floating-label,
+    .form-group input:not(:placeholder-shown) ~ .floating-label,
+    .form-group textarea:focus ~ .floating-label,
+    .form-group textarea:not(:placeholder-shown) ~ .floating-label {
+      top: -0.7rem;
+      left: 1rem;
+      font-size: 0.7rem;
+      background: white;
+      padding: 0 6px;
+      color: #C9A227;
+    }
+    footer {
+      border-top: 1px solid #EDEAE2;
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+    .character-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #fff;
+      border-radius: 100px;
+      padding: 0.5rem 1.2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    }
+    .lightbox {
+      position: fixed;
+      top:0; left:0;
+      width:100%; height:100%;
+      background: rgba(0,0,0,0.92);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 3000;
+      visibility: hidden;
+      opacity:0;
+      transition: 0.25s;
+    }
+    .lightbox.active { visibility: visible; opacity: 1; }
+    .lightbox img { max-width: 90vw; max-height: 85vh; border-radius: 24px; }
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .hamburger { display: block; }
+      .split-layout, .story-row { grid-template-columns: 1fr; flex-direction: column; }
+      .hero-grid { flex-direction: column; text-align: center; }
+      .btn-group { justify-content: center; }
+      section { padding: 4rem 0; }
+    }
+    .fade-up {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-up.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+<div class="navbar" id="navbar">
+  <div class="nav-container">
+    <div class="logo">Tarek Otero</div>
+    <div class="nav-links">
+      <a href="#home">Home</a><a href="#about">About</a><a href="#books">Books</a><a href="#memoir">Memoir</a><a href="#gallery">Gallery</a><a href="#contact">Contact</a>
+    </div>
+    <div class="hamburger" id="hamburger"><i class="fas fa-bars"></i></div>
+  </div>
+</div>
+<div class="mobile-menu" id="mobileMenu">
+  <div class="close-menu" id="closeMenu"><i class="fas fa-times"></i></div>
+  <a href="#home">Home</a><a href="#about">About</a><a href="#books">Books</a><a href="#memoir">Memoir</a><a href="#gallery">Gallery</a><a href="#contact">Contact</a>
+</div>
+
+<main>
+  <!-- ========== HERO SECTION ========== -->
+  <section id="home" class="hero">
+    <div class="floating-illustrations" id="floatContainer"></div>
+    <div class="container hero-grid">
+      <div class="hero-content fade-up">
+        <h1 style="font-size: clamp(2.8rem, 6vw, 5rem);">The Whispering Lantern &<br> the Star Compass</h1>
+        <p style="font-size: 1.2rem; margin: 1.5rem 0; color: #4a5568;">An enchanting illustrated journey by <strong>Tarek Otero</strong> — where courage glows and dreams take flight.</p>
+        <p>When young Luna finds a forgotten lantern in her grandmother’s attic, a world of luminous illustrations awakens. Guided by a star fox, she discovers that every whisper holds magic.</p>
+        <div class="btn-group">
+          <a href="#" class="btn-primary"><i class="fab fa-amazon"></i> Buy on Amazon</a>
+          <a href="#story-experience" class="btn-secondary">Explore the Story <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="book-stats">
+          <span class="stat-badge"><i class="fas fa-child"></i> Reading Age: 4–9</span>
+          <span class="stat-badge"><i class="fas fa-feather-alt"></i> Genre: Fantasy / Adventure</span>
+          <span class="stat-badge"><i class="fas fa-heart"></i> Theme: Wonder & Bravery</span>
+        </div>
+      </div>
+      <div class="hero-cover fade-up">
+        <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?w=800&auto=format" alt="The Whispering Lantern book cover" id="bookCoverPreview">
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== ABOUT AUTHOR ========== -->
+  <section id="about" style="background: #F8F6F2;">
+    <div class="container split-layout">
+      <div class="fade-up">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&auto=format" alt="Tarek Otero portrait" style="width:100%; border-radius: 36px; box-shadow: 0 25px 35px -12px rgba(0,0,0,0.1);">
+      </div>
+      <div class="fade-up">
+        <h2>Tarek Otero — Story Weaver & Illustrator</h2>
+        <p style="margin: 1rem 0;">Born in Seville, raised between libraries and oceans, Tarek has dedicated his life to creating books that feel like lullabies. His award-winning work weaves lyrical prose with watercolor worlds, earning him the Moonbeam Children's Book Award and nominations for the Kate Greenaway Medal.</p>
+        <div class="quote-handwritten">“Every child holds a universe inside — illustration is the key.”</div>
+        <p>Before becoming a full-time author, Tarek taught art to young dreamers for a decade, believing that every story starts with a question: “What if?” His books have been translated into 14 languages, inspiring families worldwide.</p>
+        <div style="margin-top: 1.5rem;">
+          <h3>✨ Beloved Characters</h3>
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 0.8rem;">
+            <div class="character-chip"><i class="fas fa-star" style="color:#C9A227;"></i> Luna – brave dreamer</div>
+            <div class="character-chip"><i class="fas fa-cloud-moon"></i> Captain Nimbus – star-fox</div>
+            <div class="character-chip"><i class="fas fa-feather-alt"></i> The Whispering Lantern</div>
+          </div>
+          <div style="margin-top: 1rem;"><span class="stat-badge"><i class="fas fa-water"></i> Emotional themes: Curiosity · Courage · Kindness · Imagination</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== BOOK SHOWCASE (VISUAL GALLERY) ========== -->
+  <section id="books">
+    <div class="container">
+      <h2 class="fade-up" style="font-size: 3rem;">✦ Visual Story Gallery ✦</h2>
+      <p class="fade-up" style="margin-bottom: 2rem;">Step inside the radiant spreads of Tarek’s masterpiece</p>
+      <div class="gallery-masonry" id="bookShowcaseGrid"></div>
+      <div style="text-align: center; margin-top: 3rem;" class="fade-up">
+        <a href="#" class="btn-primary"><i class="fab fa-amazon"></i> Buy the Hardcover Edition</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== STORY EXPERIENCE ========== -->
+  <section id="story-experience" style="background: #FFFFFF;">
+    <div class="container">
+      <h2 class="fade-up" style="font-size: 3rem; text-align: center;">The Story Experience</h2>
+      <p class="fade-up" style="text-align: center; margin-bottom: 3rem;">cinematic passages & magical spreads</p>
+      <div class="story-alternate" id="storyRowsContainer"></div>
+    </div>
+  </section>
+
+  <!-- ========== THE MEMOIR SECTION ========== -->
+  <section id="memoir" class="memoir-section">
+    <div class="container memoir-card fade-up">
+      <h2 style="font-size: 2.8rem;">The Memoir — From Dreams to Pages</h2>
+      <p style="font-size: 1.1rem; line-height: 1.65; margin: 1.5rem 0;">Long before the first published copy, Tarek Otero wandered through coastal villages, collecting whispers of wonder. The memoir of "Whispering Lantern" began one autumn night when his daughter asked why the moon followed her. That question became the seed for luminous illustrations and heartfelt prose. Every spread painted in this book reveals memories of Tarek’s own childhood—lost lighthouses, paper boats, and the scent of rain. Through elegant simplicity, he reminds us that children’s books are the first gallery of dreams.</p>
+      <div class="quote-handwritten">“A lantern can only glow when you dare to open it — just like a story.”</div>
+      <p>“Tarek’s delicate touch turns each illustration into an emotional compass. A modern classic.” — Kirkus Reviews ★</p>
+    </div>
+  </section>
+
+  <!-- ========== FULL IMAGE GALLERY ========== -->
+  <section id="gallery">
+    <div class="container">
+      <h2 class="fade-up" style="font-size: 2.8rem;">The Enchanted Gallery</h2>
+      <p class="fade-up">All original illustrations — wander through the luminous world</p>
+      <div class="gallery-masonry" id="fullGalleryGrid"></div>
+    </div>
+  </section>
+
+  <!-- ========== CONTACT & NEWSLETTER ========== -->
+  <section id="contact" style="background:#FFFFFF;">
+    <div class="container contact-form fade-up">
+      <h2 style="text-align: center;">Begin the Journey with Tarek Otero</h2>
+      <p style="text-align: center; margin-bottom: 2rem;">Join the newsletter for exclusive art prints, reading guides & magical updates</p>
+      <form id="contactForm">
+        <div class="form-group">
+          <input type="text" id="name" placeholder=" " required>
+          <label class="floating-label">Your name</label>
+        </div>
+        <div class="form-group">
+          <input type="email" id="email" placeholder=" " required>
+          <label class="floating-label">Email address</label>
+        </div>
+        <div class="form-group">
+          <textarea rows="3" id="msg" placeholder=" "></textarea>
+          <label class="floating-label">Share a childhood memory or message</label>
+        </div>
+        <button type="submit" class="btn-primary" style="width:100%;"><i class="fas fa-paper-plane"></i> Send & Subscribe</button>
+        <p style="margin-top: 1rem; font-size: 0.8rem; text-align: center;">We respect your imagination — no spam, only story magic.</p>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <div><span class="logo" style="font-size: 1.8rem;">Tarek Otero</span><p style="margin: 0.5rem 0;">sparking curiosity, one illustration at a time ✨</p>
+    <div style="margin: 1rem 0;">
+      <i class="fab fa-instagram" style="margin: 0 8px; font-size: 1.3rem; color:#6B7280;"></i>
+      <i class="fab fa-twitter" style="margin: 0 8px; font-size: 1.3rem; color:#6B7280;"></i>
+      <i class="fab fa-facebook" style="margin: 0 8px; font-size: 1.3rem; color:#6B7280;"></i>
+      <a href="#" class="btn-secondary" style="padding: 0.3rem 1.2rem; margin-left: 0.8rem;">Amazon Store</a>
+    </div>
+    <p>© 2026 Tarek Otero — All Rights Reserved</p>
+    </div>
+  </footer>
+</main>
+<div class="lightbox" id="lightbox"><img id="lightboxImg" src=""><div style="position:absolute; top:20px; right:30px; color:white; font-size:2rem; cursor:pointer;">&times;</div></div>
+
+<script>
+  // ----- HIGH-QUALITY ILLUSTRATIONS ARRAY (extracted-like assets, children’s book style) -----
+  const illustrationSet = [
+    "https://images.unsplash.com/photo-1515041219749-89347f83291a?w=800&auto=format",   // child reading magical
+    "https://images.unsplash.com/photo-1502164980785-f8aa41d53611?w=800&auto=format",   // lantern glow
+    "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800&auto=format",   // star night
+    "https://images.unsplash.com/photo-1519751138087-5bf79df62d5b?w=800&auto=format",   // watercolor fantasy
+    "https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?w=800&auto=format",   // fox
+    "https://images.unsplash.com/photo-1495107334309-fcf20504a5ab?w=800&auto=format",   // moonlight forest
+    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&auto=format",   // ocean and stars
+    "https://images.unsplash.com/photo-1518895949257-7621c3c786d7?w=800&auto=format",   // paper boat
+    "https://images.unsplash.com/photo-1519791883288-dc8bd696e667?w=800&auto=format",   // child imagination
+    "https://images.unsplash.com/photo-1472162072942-cd5147eb3902?w=800&auto=format",   // lantern in hand
+    "https://images.unsplash.com/photo-1490810194309-344b3661ba39?w=800&auto=format",   // fairy tale
+  ];
+
+  // Book cover (special)
+  const bookCover = "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=800&auto=format";
+  // Populate gallery showcases
+  function buildGalleries() {
+    const showcaseGrid = document.getElementById('bookShowcaseGrid');
+    const fullGalleryGrid = document.getElementById('fullGalleryGrid');
+    if (showcaseGrid) {
+      showcaseGrid.innerHTML = '';
+      illustrationSet.slice(0, 12).forEach((img, idx) => {
+        const card = document.createElement('div'); card.className = 'gallery-card';
+        card.innerHTML = `<img src="${img}" alt="illustration spread" loading="lazy" class="gallery-img-click"><div class="caption">✨ “The Whispering Lantern” — spread ${idx+1} · luminous moment</div>`;
+        card.querySelector('.gallery-img-click').addEventListener('click', () => openLightbox(img));
+        showcaseGrid.appendChild(card);
+      });
+    }
+    if (fullGalleryGrid) {
+      fullGalleryGrid.innerHTML = '';
+      illustrationSet.forEach((img, i) => {
+        const card = document.createElement('div'); card.className = 'gallery-card';
+        card.innerHTML = `<img src="${img}" alt="enchanted illustration" loading="lazy" class="gallery-img-click"><div class="caption">🖌️ Art from the Star Compass — scene ${i+1}</div>`;
+        card.querySelector('.gallery-img-click').addEventListener('click', () => openLightbox(img));
+        fullGalleryGrid.appendChild(card);
+      });
+    }
+  }
+
+  // Story rows with alternating immersive text
+  function buildStoryRows() {
+    const container = document.getElementById('storyRowsContainer');
+    if (!container) return;
+    const stories = [
+      { text: "Under the silver moon, young Luna discovers a forgotten lantern inside a dusty chest. As she opens it, the room fills with floating constellations, and a fox made of starlight appears.", imgIdx: 2 },
+      { text: "Captain Nimbus, the star-fox, leads Luna through the Whispering Woods. Every leaf holds a hidden painting, and each shadow tells a tale of kindness.", imgIdx: 5 },
+      { text: "They reach the Star Compass — a great celestial map. ‘Bravery is not the absence of fear,’ whispers the lantern. ‘It is lighting your own path.’", imgIdx: 8 },
+      { text: "With each turned page, Luna learns that stories connect us all. The illustrations glow brighter as she shares her journey with a lonely friend.", imgIdx: 11 },
+    ];
+    container.innerHTML = '';
+    stories.forEach((story, index) => {
+      const row = document.createElement('div');
+      row.className = `story-row ${index % 2 === 1 ? 'reverse' : ''}`;
+      const imageSrc = illustrationSet[story.imgIdx % illustrationSet.length];
+      row.innerHTML = `
+        <div class="story-img"><img src="${imageSrc}" style="width:100%; border-radius: 32px;" loading="lazy"></div>
+        <div class="story-text"><h3>✨ Passage ${index+1}</h3><p style="font-size:1.05rem; line-height:1.5;">${story.text}</p><span class="stat-badge"><i class="fas fa-quote-left"></i> “Every whisper holds a universe.”</span></div>
+      `;
+      container.appendChild(row);
+    });
+  }
+
+  // floating illustrations on hero
+  function createFloatingImages() {
+    const floatContainer = document.getElementById('floatContainer');
+    if (!floatContainer) return;
+    for (let i = 0; i < 5; i++) {
+      const img = document.createElement('img');
+      img.src = illustrationSet[i % illustrationSet.length];
+      img.className = 'float-img';
+      const top = 5 + Math.random() * 70;
+      const left = 2 + Math.random() * 80;
+      img.style.top = `${top}%`;
+      img.style.left = `${left}%`;
+      img.style.width = `${70 + Math.random() * 60}px`;
+      img.style.opacity = '0.25';
+      img.style.animationDelay = `${Math.random() * 5}s`;
+      floatContainer.appendChild(img);
+    }
+  }
+
+  let lightboxEl = null;
+  function openLightbox(src) {
+    if (!lightboxEl) {
+      lightboxEl = document.getElementById('lightbox');
+      const closeBtn = lightboxEl.querySelector('div');
+      lightboxEl.addEventListener('click', (e) => {
+        if (e.target === lightboxEl || e.target === closeBtn) lightboxEl.classList.remove('active');
+      });
+    }
+    const imgEl = document.getElementById('lightboxImg');
+    imgEl.src = src;
+    lightboxEl.classList.add('active');
+  }
+
+  // scroll reveal intersection observer
+  const fadeElements = document.querySelectorAll('.fade-up');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: "0px 0px -40px 0px" });
+  fadeElements.forEach(el => observer.observe(el));
+
+  // Mobile menu & smooth scroll
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const closeMenuBtn = document.getElementById('closeMenu');
+  hamburger?.addEventListener('click', () => mobileMenu.classList.add('active'));
+  closeMenuBtn?.addEventListener('click', () => mobileMenu.classList.remove('active'));
+  document.querySelectorAll('.navbar a, .mobile-menu a').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      const hash = this.getAttribute('href');
+      if (hash && hash.startsWith('#')) {
+        e.preventDefault();
+        const target = document.querySelector(hash);
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+        mobileMenu.classList.remove('active');
+      }
+    });
+  });
+
+  // Contact form demo
+  document.getElementById('contactForm')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    alert("✨ Thank you! Your message travels with stardust. Tarek will reply with a warm story note.");
+    e.target.reset();
+  });
+
+  // Initialize everything
+  buildGalleries();
+  buildStoryRows();
+  createFloatingImages();
+
+  // Additional dynamic tweak: set book cover
+  document.getElementById('bookCoverPreview')?.setAttribute('src', bookCover);
+</script>
+</body>
+</html>
