@@ -3,11 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Tarek Otero | Children's Book Author – The Whispering Lantern</title>
-  <meta name="description" content="Official website of Tarek Otero, award-winning children's book author of 'The Whispering Lantern & the Star Compass'. Discover illustrations, memoir, and magical storytelling.">
-  <!-- Fonts & Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <title>Tarek Otero | The Boy Who Never Gave Up</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   <style>
     * {
       margin: 0;
@@ -15,38 +14,62 @@
       box-sizing: border-box;
     }
     body {
-      background: #FFFFFF;
       font-family: 'Inter', sans-serif;
+      background: #FFFFFF;
       color: #1E2A3A;
+      line-height: 1.5;
       scroll-behavior: smooth;
       overflow-x: hidden;
     }
-    ::-webkit-scrollbar { width: 5px; }
-    ::-webkit-scrollbar-track { background: #F8F6F2; }
-    ::-webkit-scrollbar-thumb { background: #C9A227; border-radius: 10px; }
-
-    h1, h2, h3, .serif {
-      font-family: 'Playfair Display', serif;
-      font-weight: 600;
-      letter-spacing: -0.02em;
+    h1, h2, h3, .logo-text, .hero-title, .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 700;
+      letter-spacing: -0.01em;
     }
     .container {
-      max-width: 1400px;
+      max-width: 1280px;
       margin: 0 auto;
-      padding: 0 6%;
+      padding: 0 2rem;
     }
-    /* --- Glass Navbar --- */
+    :root {
+      --primary: #418fc6;
+      --primary-dark: #2c6f9e;
+      --secondary: #8cbfd6;
+      --accent: #fecd4a;
+      --accent-dark: #e0b12e;
+      --bg-light: #F6F9FC;
+      --text-dark: #1E2A3A;
+      --text-light: #5a6e7c;
+    }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #E2E8F0; }
+    ::-webkit-scrollbar-thumb { background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 10px; }
+
+    /* Navbar */
     .navbar {
-      position: fixed;
+      background: transparent;
+      padding: 1.5rem 2rem;
+      position: absolute;
       top: 0;
       left: 0;
       width: 100%;
-      backdrop-filter: blur(18px);
-      background: rgba(255, 255, 255, 0.85);
       z-index: 1000;
-      transition: all 0.25s ease;
-      border-bottom: 1px solid gray;
-      padding: 1rem 2rem;
+      transition: all 0.3s;
+    }
+    .navbar.scrolled {
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+      position: fixed;
+    }
+    .navbar.scrolled .logo-text,
+    .navbar.scrolled .nav-link {
+      color: var(--text-dark);
+      text-shadow: none;
+    }
+    .navbar.scrolled .logo-icon {
+      background: var(--primary);
+      border: none;
     }
     .nav-container {
       max-width: 1400px;
@@ -55,592 +78,983 @@
       justify-content: space-between;
       align-items: center;
     }
-    .logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: #153862;
-      letter-spacing: -0.3px;
+    .logo { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+    .logo-icon {
+      background: rgba(65,143,198,0.9);
+      width: 46px; height: 46px; border-radius: 30px;
+      display: flex; align-items: center; justify-content: center;
     }
-    .nav-links {
+    .logo-icon i { font-size: 1.7rem; color: white; }
+    .logo-text { font-size: 1.6rem; font-weight: 700; color: white; transition: color 0.2s; text-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+    .nav-menu { display: flex; gap: 2.2rem; list-style: none; }
+    .nav-link { text-decoration: none; font-weight: 500; color: white; font-size: 1rem; transition: 0.2s; }
+    .navbar.scrolled .nav-link { color: var(--text-dark); }
+    .nav-link:hover { color: var(--accent); }
+    .hamburger { display: none; font-size: 1.8rem; cursor: pointer; color: white; z-index: 1001; }
+    .navbar.scrolled .hamburger { color: var(--text-dark); }
+    .side-menu {
+      position: fixed; top: 0; right: -100%; width: 280px; height: 100vh; background: #FFFFFF;
+      box-shadow: -5px 0 30px rgba(0,0,0,0.1); z-index: 2000; transition: right 0.35s;
+      padding: 2rem 1.5rem; display: flex; flex-direction: column; gap: 2rem;
+    }
+    .side-menu.active { right: 0; }
+    .close-menu { font-size: 1.8rem; cursor: pointer; color: var(--primary); text-align: right; }
+    .side-nav-links { display: flex; flex-direction: column; gap: 1.8rem; list-style: none; }
+    .side-nav-links a { text-decoration: none; font-size: 1.3rem; font-weight: 500; color: var(--text-dark); }
+    .side-nav-links a:hover { color: var(--primary); }
+    .overlay-blur {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.3); backdrop-filter: blur(3px); z-index: 1999;
+      opacity: 0; visibility: hidden; transition: all 0.3s;
+    }
+    .overlay-blur.active { opacity: 1; visibility: visible; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.85rem 2.2rem;
+      border-radius: 40px; font-weight: 600; text-decoration: none; transition: all 0.3s;
+      font-size: 1rem;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      box-shadow: 0 6px 14px rgba(65,143,198,0.3);
+    }
+    .btn-primary:hover { transform: translateY(-4px); box-shadow: 0 18px 28px rgba(65,143,198,0.4); }
+    .btn-outline {
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(6px);
+      border: 1.5px solid white;
+      color: white;
+    }
+    .btn-outline:hover { background: var(--accent); color: var(--text-dark); border-color: var(--accent); transform: translateY(-3px); }
+    .section-title {
+      font-size: 3rem;
+      margin-bottom: 2rem;
+      position: relative;
+      display: inline-block;
+    }
+    /* .section-title:after {
+      content: '';
+      position: absolute;
+      bottom: -12px;
+      left: 0;
+      width: 90px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      border-radius: 4px;
+    } */
+    section { padding: 40px 0; }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(125deg, rgba(30,42,58,0.75), rgba(65,143,198,0.65)), url('images/book-cover.webp');
+      background-size: cover;
+      background-position: center;
       display: flex;
-      gap: 2.2rem;
+      align-items: center;
+      text-align: center;
+      color: white;
     }
-    .nav-links a {
-      text-decoration: none;
-      font-weight: 500;
-      color: #2c3e4e;
-      transition: 0.2s;
-      font-size: 0.98rem;
+    .hero-content { max-width: 950px; margin: 0 auto; animation: fadeInUp 1s ease forwards; }
+    .hero-title { font-size: 5rem; margin-bottom: 1rem; text-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+    .hero-sub { font-size: 1.5rem; margin-bottom: 1rem; }
+    .hero-author { font-size: 1.4rem; margin-bottom: 2rem; letter-spacing: 2px; }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* About + Stats */
+    .about-grid { display: flex; align-items: center; gap: 4rem; flex-wrap: wrap; margin-bottom: 3rem; }
+    .about-img { flex: 1; border-radius: 32px; overflow: hidden; box-shadow: 0 30px 45px -15px rgba(0,0,0,0.15); }
+    .about-img img { width: 100%; height: auto; display: block; }
+    .about-text { flex: 1.2; }
+    .stats-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-top: 2.5rem;
     }
-    .nav-links a:hover { color: #C9A227; transform: translateY(-1px);}
-    .hamburger {
-      display: none;
-      font-size: 1.8rem;
+    .stat-card {
+      background: white;
+      border-radius: 28px;
+      padding: 1.5rem;
+      text-align: center;
+      flex: 1;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+      border: 1px solid rgba(65,143,198,0.2);
+      transition: 0.3s;
+    }
+    .stat-card:hover { transform: translateY(-8px); border-color: var(--accent); }
+    .stat-number { font-size: 2.5rem; font-weight: 800; color: var(--primary); font-family: 'Cormorant Garamond', serif; }
+    .badge-group {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin: 1.8rem 0 0;
+    }
+    .badge {
+      background: #F0EBE4;
+      padding: 0.6rem 1.4rem;
+      border-radius: 60px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--primary-dark);
+    }
+    .badge i { margin-right: 8px; color: var(--primary); }
+
+    /* Hover Cards */
+    .hover-cards {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 3rem 0 1rem;
+    }
+    .hover-card {
+      background: white;
+      border-radius: 28px;
+      padding: 2rem 1.8rem;
+      text-align: center;
+      flex: 1 1 240px;
+      transition: all 0.4s ease;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+      border: 1px solid rgba(65,143,198,0.2);
       cursor: pointer;
-      color: #153862;
     }
-    .mobile-menu {
+    .hover-card:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 25px 35px -12px rgba(65,143,198,0.3);
+      border-color: var(--accent);
+    }
+    .hover-card i {
+      font-size: 2.8rem;
+      color: var(--primary);
+      margin-bottom: 1.2rem;
+      transition: 0.2s;
+    }
+    .hover-card:hover i {
+      color: var(--accent);
+      transform: scale(1.05);
+    }
+    .hover-card h3 { font-size: 1.5rem; margin-bottom: 0.8rem; }
+
+    /* Marquee */
+    .marquee-section { background: linear-gradient(90deg, var(--primary), var(--primary-dark)); padding: 12px 0; overflow: hidden; white-space: nowrap; }
+    .marquee-track { display: inline-flex; align-items: center; gap: 3rem; animation: marqueeScroll 22s linear infinite; }
+    .marquee-track img { height: 45px; width: auto; filter: brightness(0) invert(1); opacity: 0.85; }
+    @keyframes marqueeScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+    /* Chapter Excerpt */
+    .chapter-enhanced { background: var(--bg-light); }
+    .chapter-grid { display: flex; align-items: center; gap: 4rem; flex-wrap: wrap; }
+    .chapter-left { flex: 1.2; background: white; border-radius: 32px; padding: 2rem; box-shadow: 0 25px 40px -20px rgba(0,0,0,0.08); border-left: 6px solid var(--accent); }
+    .chapter-tag { font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: 1.2rem; color: var(--primary); margin-bottom: 1rem; display: inline-block; }
+    .excerpt-paragraph { font-size: 1.05rem; line-height: 1.7; margin-bottom: 1.4rem; color: #2D3E4F; }
+    .book-image-frame { background: white; border-radius: 32px; padding: 1rem; box-shadow: 0 20px 35px rgba(65,143,198,0.2); }
+    .book-image-frame img { max-width: 280px; width: 100%; border-radius: 20px; }
+
+    /* Journey Steps */
+    .journey-steps {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+    .step {
+      flex: 1;
+      min-width: 200px;
+      background: white;
+      border-radius: 28px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      transition: all 0.3s;
+      border: 1px solid rgba(65,143,198,0.2);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.03);
+    }
+    .step:hover {
+      transform: translateY(-8px);
+      border-color: var(--accent);
+    }
+    .step-icon {
+      background: var(--primary);
+      width: 70px;
+      height: 70px;
+      margin: 0 auto 1.2rem;
+      border-radius: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      color: white;
+    }
+    .step h3 { font-size: 1.6rem; margin-bottom: 0.5rem; }
+
+    /* Quote Section */
+    .quote-section {
+      background: linear-gradient(135deg, #F3F9FF, #FFFFFF);
+      padding: 4rem 0;
+      text-align: center;
+    }
+    .quote-block {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 48px;
+      padding: 2.5rem 2rem;
+      box-shadow: 0 30px 45px -20px rgba(65,143,198,0.25);
+      border: 1px solid var(--secondary);
+    }
+    .quote-symbol {
+      font-size: 3rem;
+      color: var(--primary);
+      opacity: 0.4;
+      margin-bottom: 1rem;
+    }
+    .quote-text-main {
+      font-size: 1.5rem;
+      line-height: 1.6;
+      font-style: italic;
+      margin-bottom: 1.5rem;
+    }
+    .quote-author-name {
+      font-weight: 600;
+      color: var(--primary-dark);
+    }
+
+    /* Carousel Swiper (draggable, no autoplay) */
+    .carousel-section {
+      background: var(--bg-light);
+    }
+    .swiper {
+      padding: 2rem 0.5rem;
+      overflow: hidden;
+      border-radius: 28px;
+    }
+    .swiper-slide {
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .swiper-slide img {
+      width: 100%;
+      max-width: 500px;
+      height: auto;
+      border-radius: 24px;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+      margin: 0 auto;
+      transition: transform 0.3s;
+    }
+    .swiper-slide img:hover {
+      transform: scale(1.02);
+    }
+    .swiper-button-next, .swiper-button-prev {
+      color: var(--primary);
+      background: rgba(255,255,255,0.8);
+      width: 44px;
+      height: 44px;
+      border-radius: 44px;
+      backdrop-filter: blur(4px);
+    }
+    .swiper-button-next:after, .swiper-button-prev:after {
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+    .swiper-pagination-bullet-active {
+      background: var(--primary);
+    }
+
+    /* Lightbox Modal */
+    .lightbox-modal {
+      display: none;
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
-      height: 100vh;
-      background: #FFFFFF;
-      z-index: 2000;
-      display: flex;
-      flex-direction: column;
+      height: 100%;
+      background: rgba(0,0,0,0.9);
+      z-index: 3000;
       justify-content: center;
       align-items: center;
-      gap: 2rem;
-      transform: translateX(100%);
-      transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.4, 1);
-    }
-    .mobile-menu.active { transform: translateX(0); }
-    .mobile-menu a {
-      font-size: 2rem;
-      font-family: 'Playfair Display', serif;
-      text-decoration: none;
-      color: #153862;
-    }
-    .close-menu {
-      position: absolute;
-      top: 2rem;
-      right: 2rem;
-      font-size: 2rem;
       cursor: pointer;
     }
-    /* sections spacing */
-    section {
-      padding: 40px 0;
-      position: relative;
-    }
-    .hero {
-      min-height: 100vh;
+    .lightbox-modal.active {
       display: flex;
-      padding-top: 100px;
-      align-items: center;
-      background: radial-gradient(circle at 10% 30%, rgba(248,246,242,0.4) 0%, #FFFFFF 80%);
     }
-    .hero-grid {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 4rem;
+    .lightbox-img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 16px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
     }
-    .hero-content { flex: 1.2; }
-    .hero-cover { flex: 0.9; perspective: 900px; }
-    .hero-cover img {
-      width: 100%;
-      border-radius: 32px;
-      box-shadow: 0 35px 45px -20px rgba(0,0,0,0.25);
-      transition: transform 0.5s ease;
-    }
-    .hero-cover img:hover { transform: rotate(1deg) scale(1.01);}
-    .floating-illustrations {
+    .close-lightbox {
       position: absolute;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 0;
-    }
-    .float-img {
-      position: absolute;
-      width: 100px;
-      opacity: 0.3;
-      border-radius: 28px;
-      animation: float 11s infinite ease-in-out;
-      filter: drop-shadow(0 12px 15px rgba(0,0,0,0.08));
-    }
-    @keyframes float {
-      0% { transform: translateY(0px) rotate(0deg);}
-      50% { transform: translateY(-20px) rotate(3deg);}
-      100% { transform: translateY(0px) rotate(0deg);}
-    }
-    .btn-group {
-      display: flex;
-      gap: 1.2rem;
-      margin-top: 2.5rem;
-      flex-wrap: wrap;
-    }
-    .btn-primary {
-      background: #153862;
+      top: 30px;
+      right: 40px;
+      font-size: 3rem;
       color: white;
+      background: none;
       border: none;
-      padding: 0.9rem 2.2rem;
-      border-radius: 50px;
-      font-weight: 600;
       cursor: pointer;
       transition: 0.2s;
-      display: inline-block;
-      text-decoration: none;
     }
-    .btn-secondary {
-      background: transparent;
-      border: 1.5px solid #C9A227;
-      color: #153862;
-      padding: 0.9rem 2rem;
-      border-radius: 50px;
-      font-weight: 600;
-      transition: 0.2s;
+    .close-lightbox:hover {
+      color: var(--accent);
+      transform: scale(1.1);
     }
-    .btn-primary:hover { background: #0e2a48; transform: scale(1.02);}
-    .btn-secondary:hover { background: #C9A22710; border-color: #b38f1f;}
 
-    .split-layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: center;
+    /* Memoir Section */
+    #book .container{
+        padding: 40px 0;
     }
-    .quote-handwritten {
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      font-size: 1.7rem;
-      color: #C9A227;
-      border-left: 4px solid #C9A227;
-      padding-left: 1.5rem;
-      margin: 1.5rem 0;
-    }
-    .book-stats {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      margin: 2rem 0 1rem;
-    }
-    .stat-badge {
-      background: #F8F6F2;
-      padding: 0.4rem 1.2rem;
-      border-radius: 60px;
-      font-size: 0.85rem;
-      font-weight: 500;
-    }
-    .gallery-masonry {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.8rem;
-      margin-top: 3rem;
-    }
-    .gallery-card {
-      background: #FFFFFF;
-      border-radius: 32px;
-      overflow: hidden;
-      transition: all 0.35s cubic-bezier(0.2, 0.9, 0.4, 1);
-      box-shadow: 0 12px 28px -10px rgba(0,0,0,0.05);
-    }
-    .gallery-card img {
-      width: 100%;
-      height: 280px;
-      object-fit: cover;
-      transition: transform 0.6s ease;
-      display: block;
-    }
-    .gallery-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 25px 35px -12px rgba(0,0,0,0.12);
-    }
-    .gallery-card:hover img { transform: scale(1.02);}
-    .caption {
-      padding: 1rem 1.2rem;
-      font-size: 0.85rem;
-      color: #6B7280;
-    }
-    .story-alternate {
-      display: flex;
-      flex-direction: column;
-      gap: 5rem;
-    }
-    .story-row {
-      display: flex;
-      gap: 3rem;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-    .story-img { flex: 1; border-radius: 36px; overflow: hidden; box-shadow: 0 20px 30px -12px rgba(0,0,0,0.08);}
-    .story-text { flex: 1; }
-    .story-row.reverse { flex-direction: row-reverse; }
-    .memoir-section {
-      background: #F8F6F2;
-      position: relative;
-    }
-    .memoir-card {
-      background: rgba(255,255,255,0.96);
-      backdrop-filter: blur(4px);
-      border-radius: 56px;
-      padding: 3rem 3rem;
-      max-width: 1000px;
-      margin: 0 auto;
-      box-shadow: 0 25px 45px -12px rgba(0,0,0,0.08);
-    }
-    .contact-form {
-      max-width: 680px;
-      margin: 0 auto;
-    }
-    .form-group {
-      margin-bottom: 1.8rem;
-      position: relative;
-    }
-    .form-group input, .form-group textarea {
-      width: 100%;
-      padding: 1rem 1rem;
-      border: 1px solid #E2E2DC;
-      border-radius: 30px;
-      font-family: 'Inter', sans-serif;
-      background: white;
-      font-size: 1rem;
-    }
-    .floating-label {
-      position: absolute;
-      left: 1rem;
-      top: 1rem;
-      transition: 0.2s;
-      pointer-events: none;
-      color: #9ca3af;
-    }
-    .form-group input:focus ~ .floating-label,
-    .form-group input:not(:placeholder-shown) ~ .floating-label,
-    .form-group textarea:focus ~ .floating-label,
-    .form-group textarea:not(:placeholder-shown) ~ .floating-label {
-      top: -0.7rem;
-      left: 1rem;
-      font-size: 0.7rem;
-      background: white;
-      padding: 0 6px;
-      color: #C9A227;
-    }
-    footer {
-      border-top: 1px solid #EDEAE2;
-      padding: 3rem 2rem;
+    .memoir-luxury-card {
+      background: #FEFCF8;
+      border-radius: 70px;
+      padding: 20px;
       text-align: center;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.08);
+      transition: all 0.4s;
     }
-    .character-chip {
+    .memoir-luxury-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 35px 55px -20px rgba(65,143,198,0.2);
+    }
+    .butterfly-icon-row {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      font-size: 2rem;
+      color: var(--secondary);
+      margin-bottom: 1.5rem;
+    }
+    .btn-luxury {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      padding: 0.9rem 2.5rem;
+      border-radius: 60px;
+      text-decoration: none;
+      font-weight: 600;
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      background: #fff;
-      border-radius: 100px;
-      padding: 0.5rem 1.2rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+      transition: 0.3s;
     }
-    .lightbox {
-      position: fixed;
-      top:0; left:0;
-      width:100%; height:100%;
-      background: rgba(0,0,0,0.92);
+    .btn-luxury:hover { background: var(--accent); color: var(--text-dark); transform: scale(1.02); }
+    .store-badge-luxury {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.8rem;
+      margin-top: 2rem;
+    }
+    .store-badge-luxury a {
+      background: white;
+      border: 1px solid #E2D6C8;
+      padding: 0.6rem 1.3rem;
+      border-radius: 40px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--primary-dark);
+      text-decoration: none;
+      transition: 0.25s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .store-badge-luxury a:hover {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+    }
+
+    /* Contact Section (unchanged, as loved) */
+    .contact-wow {
+      background: linear-gradient(120deg, #FFFFFF 0%, #F8FCFF 100%);
+      padding: 40px 10px;
+      border-radius: 48px;
+      margin: 0 auto;
+      max-width: 1300px;
+      box-shadow: 0 30px 50px -20px rgba(0,0,0,0.1);
+    }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 3rem;
+      align-items: start;
+    }
+    .contact-info-card {
+      background: white;
+      border-radius: 32px;
+      padding: 2rem;
+      box-shadow: 0 20px 30px -12px rgba(65,143,198,0.15);
+      border: 1px solid rgba(65,143,198,0.2);
+    }
+    .contact-info-card h3 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      font-family: 'Cormorant Garamond', serif;
+    }
+    .contact-detail {
+      display: flex;
+      gap: 1.2rem;
+      margin: 1.8rem 0;
+      align-items: center;
+    }
+    .contact-icon {
+      width: 52px;
+      height: 52px;
+      background: var(--bg-light);
+      border-radius: 30px;
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 3000;
-      visibility: hidden;
-      opacity:0;
-      transition: 0.25s;
+      font-size: 1.4rem;
+      color: var(--primary);
     }
-    .lightbox.active { visibility: visible; opacity: 1; }
-    .lightbox img { max-width: 90vw; max-height: 85vh; border-radius: 24px; }
-    @media (max-width: 900px) {
-      .nav-links { display: none; }
+    .social-icons-contact {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    .social-icons-contact a {
+      background: var(--bg-light);
+      width: 44px;
+      height: 44px;
+      border-radius: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      transition: 0.2s;
+    }
+    .social-icons-contact a:hover {
+      background: var(--primary);
+      color: white;
+      transform: translateY(-5px);
+    }
+    .contact-form-card {
+      background: white;
+      border-radius: 32px;
+      padding: 2rem;
+      box-shadow: 0 20px 30px -12px rgba(65,143,198,0.15);
+      border: 1px solid rgba(65,143,198,0.2);
+    }
+    .form-row {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.2rem;
+    }
+    .form-group {
+      flex: 1;
+      margin-bottom: 1.2rem;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+    .form-control {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #E2E8F0;
+      border-radius: 20px;
+      transition: 0.2s;
+      font-family: inherit;
+    }
+    .form-control:focus {
+      border-color: var(--primary);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(65,143,198,0.2);
+    }
+    .submit-btn-wow {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+      width: 100%;
+    }
+    .submit-btn-wow:hover {
+      background: var(--accent);
+      color: var(--text-dark);
+      transform: translateY(-3px);
+    }
+    
+
+    /* New Footer Design */
+    .new-footer {
+      background: #418fc6;
+      color: #E2E8F0;
+      padding: 3rem 0 2rem;
+      /* margin-top: 3rem; */
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    .footer-col h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+      color: var(--accent);
+    }
+    .footer-col p {
+      font-size: 0.9rem;
+      line-height: 1.5;
+      opacity: 0.8;
+    }
+    .footer-col ul {
+      list-style: none;
+    }
+    .footer-col ul li {
+      margin-bottom: 0.6rem;
+    }
+    .footer-col ul li a {
+      color: #E2E8F0;
+      text-decoration: none;
+      transition: 0.2s;
+      font-size: 0.9rem;
+    }
+    .footer-col ul li a:hover {
+      color: var(--accent);
+      padding-left: 4px;
+    }
+    .footer-social {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .footer-social a {
+      background: rgba(255,255,255,0.1);
+      width: 38px;
+      height: 38px;
+      border-radius: 38px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      transition: 0.2s;
+    }
+    .footer-social a:hover {
+      background: var(--accent);
+      color: #1E2A3A;
+      transform: translateY(-3px);
+    }
+    .footer-bottom {
+      text-align: center;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      font-size: 0.85rem;
+      opacity: 0.7;
+    }
+    .footer-bottom a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    @media (max-width: 850px) {
+      .nav-menu { display: none; }
       .hamburger { display: block; }
-      .split-layout, .story-row { grid-template-columns: 1fr; flex-direction: column; }
-      .hero-grid { flex-direction: column; text-align: center; }
-      .btn-group { justify-content: center; }
-      section { padding: 4rem 0; }
+      .hero-title { font-size: 3rem; }
+      .section-title { font-size: 2.2rem; text-align: center;}
+      .about-grid, .chapter-grid { flex-direction: column; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .form-row { flex-direction: column; gap: 0; }
+      .journey-steps { flex-direction: column; }
+      .footer-grid { grid-template-columns: 1fr; text-align: center; }
+      .footer-social { justify-content: center; }
     }
-    .fade-up {
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
+    .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.8s, transform 0.8s; }
+    .fade-up.appear { opacity: 1; transform: translateY(0); }
+    .swiper-wrapper{
+        height: 300px !important;
     }
-    .fade-up.revealed {
-      opacity: 1;
-      transform: translateY(0);
+    .swiper-horizontal>.swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal, .swiper-pagination-custom, .swiper-pagination-fraction{
+        display: none !important;
+    }
+    @media(max-width:600px){
+        .swiper-wrapper{
+            height: 200px !important;
+        }
+        .swiper{
+            padding: 0 !important;
+        }
     }
   </style>
 </head>
 <body>
 
-<div class="navbar" id="navbar">
+<nav class="navbar" id="navbar">
   <div class="nav-container">
-    <div class="logo">Tarek Otero</div>
-    <div class="nav-links">
-      <a href="#home">Home</a><a href="#about">About</a><a href="#books">Books</a><a href="#memoir">Memoir</a><a href="#gallery">Gallery</a><a href="#contact">Contact</a>
-    </div>
+    <div class="logo"><div class="logo-icon"><i class="fas fa-feather-alt"></i></div><span class="logo-text">Tarek Otero</span></div>
     <div class="hamburger" id="hamburger"><i class="fas fa-bars"></i></div>
+    <ul class="nav-menu">
+      <li><a href="#home" class="nav-link">Home</a></li>
+      <li><a href="#about" class="nav-link">About</a></li>
+      <li><a href="#excerpts" class="nav-link">Excerpts</a></li>
+      <li><a href="#book" class="nav-link">Book</a></li>
+      <li><a href="#journey" class="nav-link">Journey</a></li>
+      <li><a href="#contact" class="nav-link">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+<div class="overlay-blur" id="overlayBlur"></div>
+<div class="side-menu" id="sideMenu">
+  <div class="close-menu" id="closeMenu"><i class="fas fa-times"></i></div>
+  <ul class="side-nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#excerpts">Excerpts</a></li>
+    <li><a href="#book">Book</a></li>
+    <li><a href="#journey">Journey</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</div>
+
+<!-- Hero -->
+<section id="home" class="hero">
+  <div class="hero-content">
+    <h1 class="hero-title">Tarek: <br>The Boy Who Never Gave Up</h1>
+    <p class="hero-sub">A Memoir of Resilience & Unbreakable Spirit</p>
+    <p class="hero-author">Tarek Otero</p>
+    <div class="hero-buttons" style="display: flex; gap: 1.2rem; justify-content: center; flex-wrap: wrap;">
+      <a href="#about" class="btn btn-primary"><i class="fas fa-book-open"></i> Discover the Journey</a>
+      <a href="#book" class="btn btn-outline"><i class="fas fa-shopping-bag"></i> Purchase Now</a>
+    </div>
+  </div>
+</section>
+
+<!-- About + Stats -->
+<section id="about">
+  <div class="container">
+    <h2 class="section-title">About the Author</h2>
+    <div class="about-grid">
+      <div class="about-img">
+        <img src="images/author.jpeg" alt="Tarek Otero" onerror="this.src='https://placehold.co/600x700?text=Tarek+Otero'">
+      </div>
+      <div class="about-text">
+        <p style="font-size:1.12rem; margin-bottom:1rem;"><strong>Tarek Otero</strong> is a survivor, storyteller, and youth empowerment coach. Through his memoir, he shares the raw truth of growing up amid chaos and the determined choice to rise above.</p>
+        <p>With a voice that is both vulnerable and fierce, Tarek has dedicated his life to helping young people find their inner strength. He speaks internationally about resilience, trauma recovery, and the power of never giving up.</p>
+        <p style="margin-top: 1rem;"><em>“I realized that my past didn't have to be my future. I chose to become the boy who never gave up.”</em></p>
+        <div class="badge-group">
+          <span class="badge"><i class="fas fa-hand-holding-heart"></i> Youth Advocate</span>
+          <span class="badge"><i class="fas fa-chalkboard-user"></i> Resilience Coach</span>
+          <span class="badge"><i class="fas fa-feather-alt"></i> Storyteller</span>
+        </div>
+      </div>
+    </div>
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-number">15+</div><div>Years of Advocacy</div></div>
+      <div class="stat-card"><div class="stat-number">100+</div><div>Schools & Events</div></div>
+      <div class="stat-card"><div class="stat-number">10k+</div><div>Lives Touched</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Hover Cards -->
+<div class="container">
+  <div class="hover-cards">
+    <div class="hover-card"><i class="fas fa-seedling"></i><h3>Rooted Truth</h3><p>Confronting the past with courage, breaking generational cycles.</p></div>
+    <div class="hover-card"><i class="fas fa-dove"></i><h3>Resilience</h3><p>Turning pain into purpose, one step at a time.</p></div>
+    <div class="hover-card"><i class="fas fa-hands-helping"></i><h3>Community</h3><p>No one heals alone — connection is everything.</p></div>
   </div>
 </div>
-<div class="mobile-menu" id="mobileMenu">
-  <div class="close-menu" id="closeMenu"><i class="fas fa-times"></i></div>
-  <a href="#home">Home</a><a href="#about">About</a><a href="#books">Books</a><a href="#memoir">Memoir</a><a href="#gallery">Gallery</a><a href="#contact">Contact</a>
+
+<!-- Marquee -->
+<div class="marquee-section"><div class="marquee-container"><div class="marquee-track">
+  <img src="images/Rakuten-Kobo-logo.png" alt="Kobo" onerror="this.style.display='none'">
+  <img src="images/IngramSpark.jpg" alt="IngramSpark" onerror="this.style.display='none'">
+  <img src="images/Google-Books.png" alt="Google Books">
+  <img src="images/Lulu-logo.png" alt="Lulu">
+  <img src="images/amazon-kindle.webp" alt="Kindle">
+  <img src="images/Barnes&Noble.png" alt="Barnes & Noble">
+  <img src="images/Rakuten-Kobo-logo.png" alt="Kobo">
+  <img src="images/IngramSpark.jpg" alt="IngramSpark">
+</div></div></div>
+
+<!-- Chapter Excerpt -->
+<section id="excerpts" class="chapter-enhanced">
+  <div class="container">
+    <h2 class="section-title">From the Memoir</h2>
+    <div class="chapter-grid">
+      <div class="chapter-left">
+        <span class="chapter-tag"><i class="fas fa-book-open"></i> Chapter 1 · The Boy who never gave up</span>
+        <p class="excerpt-paragraph">“I learned early that silence was a shield. But shields also hide the wounds. Looking back, I realise that the absence of care was louder than any scream. We ran barefoot, hungry for attention, but no one was watching.”</p>
+        <p class="excerpt-paragraph">“Dad's old bread truck became our escape, our prison, our everything. One afternoon, a match was struck – not out of malice, but out of a child's longing to feel something. The fire that almost consumed us taught me a lesson: sometimes you have to burn to be reborn.”</p>
+        <div><i class="fas fa-feather-alt" style="color:var(--primary);"></i> <span style="font-size:0.85rem;"> — raw, resilient, real</span></div>
+      </div>
+      <div class="chapter-right"><div class="book-image-frame"><img src="images/book.webp" alt="Book cover" onerror="this.src='https://placehold.co/400x500?text=Tarek+Book+Cover'"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Healing Journey -->
+<section id="journey">
+  <div class="container">
+    <h2 class="section-title">The Healing Journey</h2>
+    <div class="journey-steps">
+      <div class="step"><div class="step-icon"><i class="fas fa-comment-dots"></i></div><h3>1. Break the Silence</h3><p>Acknowledge the pain — the first step toward freedom.</p></div>
+      <div class="step"><div class="step-icon"><i class="fas fa-users"></i></div><h3>2. Find Your People</h3><p>Connect with advocates and communities who listen.</p></div>
+      <div class="step"><div class="step-icon"><i class="fas fa-feather-alt"></i></div><h3>3. Reclaim Your Voice</h3><p>Your story becomes your power when you share it.</p></div>
+      <div class="step"><div class="step-icon"><i class="fas fa-dove"></i></div><h3>4. Stronger Wings</h3><p>Rise — not despite the scars, but because of them.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- Quote Section -->
+<section class="quote-section">
+  <div class="container">
+    <div class="quote-block">
+      <div class="quote-symbol"><i class="fas fa-quote-right"></i></div>
+      <div class="quote-text-main">“There was a moment when giving up felt like the only logical choice. The weight of every failure, every lost promise, pressed down until I couldn't breathe. I didn't want to die — I just wanted the pain to stop. But then I remembered the boy who used to climb trees to watch the sunrise. That boy still existed. Hope is not a feeling — it's a decision.”</div>
+      <div class="quote-author-name">— Tarek Otero, <em>The Boy Who Never Gave Up</em></div>
+    </div>
+  </div>
+</section>
+
+<!-- Carousel (Swiper, draggable, no autoplay) + Lightbox -->
+<section class="carousel-section">
+  <div class="container">
+    <h2 class="section-title">Peek Inside the Book</h2>
+    <div class="swiper bookSwiper">
+      <div class="swiper-wrapper" id="swiperWrapper">
+        <!-- 31 images will be injected via JS -->
+      </div>
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-pagination"></div>
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox Modal -->
+<div id="lightbox" class="lightbox-modal">
+  <button class="close-lightbox" id="closeLightbox">&times;</button>
+  <img class="lightbox-img" id="lightboxImg" alt="Book page enlarged">
 </div>
 
-<main>
-  <!-- ========== HERO SECTION ========== -->
-  <section id="home" class="hero">
-    <div class="floating-illustrations" id="floatContainer"></div>
-    <div class="container hero-grid">
-      <div class="hero-content fade-up">
-        <h1 style="font-size: clamp(2.8rem, 6vw, 5rem);">The Whispering Lantern &<br> the Star Compass</h1>
-        <p style="font-size: 1.2rem; margin: 1.5rem 0; color: #4a5568;">An enchanting illustrated journey by <strong>Tarek Otero</strong> — where courage glows and dreams take flight.</p>
-        <p>When young Luna finds a forgotten lantern in her grandmother’s attic, a world of luminous illustrations awakens. Guided by a star fox, she discovers that every whisper holds magic.</p>
-        <div class="btn-group">
-          <a href="#" class="btn-primary"><i class="fab fa-amazon"></i> Buy on Amazon</a>
-          <a href="#story-experience" class="btn-secondary">Explore the Story <i class="fas fa-arrow-right"></i></a>
-        </div>
-        <div class="book-stats">
-          <span class="stat-badge"><i class="fas fa-child"></i> Reading Age: 4–9</span>
-          <span class="stat-badge"><i class="fas fa-feather-alt"></i> Genre: Fantasy / Adventure</span>
-          <span class="stat-badge"><i class="fas fa-heart"></i> Theme: Wonder & Bravery</span>
-        </div>
-      </div>
-      <div class="hero-cover fade-up">
-        <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?w=800&auto=format" alt="The Whispering Lantern book cover" id="bookCoverPreview">
+<!-- Memoir Section -->
+<section id="book" style="padding-top:0;">
+  <div class="container">
+    <div class="memoir-luxury-card">
+      <div class="butterfly-icon-row"><i class="fas fa-butterfly"></i><i class="fas fa-butterfly"></i><i class="fas fa-butterfly"></i></div>
+      <h3 style="font-size:2.6rem;">Tarek: The Boy Who Never Gave Up</h3>
+      <p style="max-width:700px; margin:1rem auto;">An unforgettable true story of a boy who faced neglect, poverty, and self-doubt — yet refused to surrender. Through raw prose and unflinching honesty, Tarek Otero invites you into his journey from shattered roots to strong wings.</p>
+      <a href="#" class="btn-luxury"><i class="fas fa-shopping-bag"></i> Order Your Copy</a>
+      <div class="store-badge-luxury">
+        <a href="#"><i class="fab fa-amazon"></i> Amazon</a>
+        <a href="#"><i class="fas fa-store"></i> Barnes & Noble</a>
+        <a href="#"><i class="fas fa-water"></i> Waterstones</a>
+        <a href="#"><i class="fab fa-walmart"></i> Walmart</a>
+        <a href="#"><i class="fas fa-leaf"></i> Indigo</a>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ========== ABOUT AUTHOR ========== -->
-  <section id="about" style="background: #F8F6F2;">
-    <div class="container split-layout">
-      <div class="fade-up">
-        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&auto=format" alt="Tarek Otero portrait" style="width:100%; border-radius: 36px; box-shadow: 0 25px 35px -12px rgba(0,0,0,0.1);">
+<!-- Contact Section (unchanged, as loved) -->
+<section id="contact" class="container" style="padding: 2rem 0 5rem;">
+  <div class="contact-wow">
+    <div class="contact-grid">
+      <div class="contact-info-card">
+        <h3>Let’s Connect</h3>
+        <p>I'd love to hear your story, speak at your event, or simply share hope.</p>
+        <div class="contact-detail">
+          <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+          <div><strong>Email</strong><br>hello@tarekotero.com</div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-icon"><i class="fas fa-phone-alt"></i></div>
+          <div><strong>Phone</strong><br>+1 (800) 555-TAREK</div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <div><strong>Speaking</strong><br>Available worldwide (virtual & in-person)</div>
+        </div>
+        <div class="social-icons-contact">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-tiktok"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        </div>
       </div>
-      <div class="fade-up">
-        <h2>Tarek Otero — Story Weaver & Illustrator</h2>
-        <p style="margin: 1rem 0;">Born in Seville, raised between libraries and oceans, Tarek has dedicated his life to creating books that feel like lullabies. His award-winning work weaves lyrical prose with watercolor worlds, earning him the Moonbeam Children's Book Award and nominations for the Kate Greenaway Medal.</p>
-        <div class="quote-handwritten">“Every child holds a universe inside — illustration is the key.”</div>
-        <p>Before becoming a full-time author, Tarek taught art to young dreamers for a decade, believing that every story starts with a question: “What if?” His books have been translated into 14 languages, inspiring families worldwide.</p>
-        <div style="margin-top: 1.5rem;">
-          <h3>✨ Beloved Characters</h3>
-          <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 0.8rem;">
-            <div class="character-chip"><i class="fas fa-star" style="color:#C9A227;"></i> Luna – brave dreamer</div>
-            <div class="character-chip"><i class="fas fa-cloud-moon"></i> Captain Nimbus – star-fox</div>
-            <div class="character-chip"><i class="fas fa-feather-alt"></i> The Whispering Lantern</div>
+      <div class="contact-form-card">
+        <h3>Send a Message</h3>
+        <form id="wowContactForm">
+          <div class="form-row">
+            <div class="form-group"><label>Full Name *</label><input type="text" class="form-control" required></div>
+            <div class="form-group"><label>Email *</label><input type="email" class="form-control" required></div>
           </div>
-          <div style="margin-top: 1rem;"><span class="stat-badge"><i class="fas fa-water"></i> Emotional themes: Curiosity · Courage · Kindness · Imagination</span></div>
+          <div class="form-group"><label>Subject</label><input type="text" class="form-control" placeholder="Speaking inquiry / Book club / Support"></div>
+          <div class="form-group"><label>Message *</label><textarea rows="4" class="form-control" required></textarea></div>
+          <button type="submit" class="submit-btn-wow">Send Message <i class="fas fa-paper-plane"></i></button>
+        </form>
+        
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- New Footer -->
+<footer class="new-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Tarek Otero</h4>
+        <p>Survivor. Storyteller. Advocate.<br>“The Boy Who Never Gave Up”</p>
+        <div class="footer-social">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-tiktok"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#excerpts">Excerpts</a></li>
+          <li><a href="#book">Book</a></li>
+          <li><a href="#journey">Healing Journey</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Get the Memoir</h4>
+        <ul>
+          <li><a href="#">Amazon</a></li>
+          <li><a href="#">Barnes & Noble</a></li>
+          <li><a href="#">Waterstones</a></li>
+          <li><a href="#">Walmart</a></li>
+          <li><a href="#">Indigo</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Newsletter</h4>
+        <p>Subscribe for updates & healing resources.</p>
+        <div style="display:flex; gap:0.5rem; margin-top:0.5rem;">
+          <input type="email" placeholder="Your email" id="footerEmail" style="flex:1; padding:8px 12px; border-radius:40px; border:none;">
+          <button id="footerSubscribeBtn" style="background:var(--accent); border:none; border-radius:40px; padding:8px 16px; cursor:pointer;">Join</button>
         </div>
       </div>
     </div>
-  </section>
-
-  <!-- ========== BOOK SHOWCASE (VISUAL GALLERY) ========== -->
-  <section id="books">
-    <div class="container">
-      <h2 class="fade-up" style="font-size: 3rem;">✦ Visual Story Gallery ✦</h2>
-      <p class="fade-up" style="margin-bottom: 2rem;">Step inside the radiant spreads of Tarek’s masterpiece</p>
-      <div class="gallery-masonry" id="bookShowcaseGrid"></div>
-      <div style="text-align: center; margin-top: 3rem;" class="fade-up">
-        <a href="#" class="btn-primary"><i class="fab fa-amazon"></i> Buy the Hardcover Edition</a>
-      </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Tarek Otero —  All rights reserved.</p>
     </div>
-  </section>
+  </div>
+</footer>
 
-  <!-- ========== STORY EXPERIENCE ========== -->
-  <section id="story-experience" style="background: #FFFFFF;">
-    <div class="container">
-      <h2 class="fade-up" style="font-size: 3rem; text-align: center;">The Story Experience</h2>
-      <p class="fade-up" style="text-align: center; margin-bottom: 3rem;">cinematic passages & magical spreads</p>
-      <div class="story-alternate" id="storyRowsContainer"></div>
-    </div>
-  </section>
-
-  <!-- ========== THE MEMOIR SECTION ========== -->
-  <section id="memoir" class="memoir-section">
-    <div class="container memoir-card fade-up">
-      <h2 style="font-size: 2.8rem;">The Memoir — From Dreams to Pages</h2>
-      <p style="font-size: 1.1rem; line-height: 1.65; margin: 1.5rem 0;">Long before the first published copy, Tarek Otero wandered through coastal villages, collecting whispers of wonder. The memoir of "Whispering Lantern" began one autumn night when his daughter asked why the moon followed her. That question became the seed for luminous illustrations and heartfelt prose. Every spread painted in this book reveals memories of Tarek’s own childhood—lost lighthouses, paper boats, and the scent of rain. Through elegant simplicity, he reminds us that children’s books are the first gallery of dreams.</p>
-      <div class="quote-handwritten">“A lantern can only glow when you dare to open it — just like a story.”</div>
-      <p>“Tarek’s delicate touch turns each illustration into an emotional compass. A modern classic.” — Kirkus Reviews ★</p>
-    </div>
-  </section>
-
-  <!-- ========== FULL IMAGE GALLERY ========== -->
-  <section id="gallery">
-    <div class="container">
-      <h2 class="fade-up" style="font-size: 2.8rem;">The Enchanted Gallery</h2>
-      <p class="fade-up">All original illustrations — wander through the luminous world</p>
-      <div class="gallery-masonry" id="fullGalleryGrid"></div>
-    </div>
-  </section>
-
-  <!-- ========== CONTACT & NEWSLETTER ========== -->
-  <section id="contact" style="background:#FFFFFF;">
-    <div class="container contact-form fade-up">
-      <h2 style="text-align: center;">Begin the Journey with Tarek Otero</h2>
-      <p style="text-align: center; margin-bottom: 2rem;">Join the newsletter for exclusive art prints, reading guides & magical updates</p>
-      <form id="contactForm">
-        <div class="form-group">
-          <input type="text" id="name" placeholder=" " required>
-          <label class="floating-label">Your name</label>
-        </div>
-        <div class="form-group">
-          <input type="email" id="email" placeholder=" " required>
-          <label class="floating-label">Email address</label>
-        </div>
-        <div class="form-group">
-          <textarea rows="3" id="msg" placeholder=" "></textarea>
-          <label class="floating-label">Share a childhood memory or message</label>
-        </div>
-        <button type="submit" class="btn-primary" style="width:100%;"><i class="fas fa-paper-plane"></i> Send & Subscribe</button>
-        <p style="margin-top: 1rem; font-size: 0.8rem; text-align: center;">We respect your imagination — no spam, only story magic.</p>
-      </form>
-    </div>
-  </section>
-
-  <footer>
-    <div><span class="logo" style="font-size: 1.8rem;">Tarek Otero</span><p style="margin: 0.5rem 0;">sparking curiosity, one illustration at a time ✨</p>
-    <div style="margin: 1rem 0;">
-      <i class="fab fa-instagram" style="margin: 0 8px; font-size: 1.3rem; color:#6B7280;"></i>
-      <i class="fab fa-twitter" style="margin: 0 8px; font-size: 1.3rem; color:#6B7280;"></i>
-      <i class="fab fa-facebook" style="margin: 0 8px; font-size: 1.3rem; color:#6B7280;"></i>
-      <a href="#" class="btn-secondary" style="padding: 0.3rem 1.2rem; margin-left: 0.8rem;">Amazon Store</a>
-    </div>
-    <p>© 2026 Tarek Otero — All Rights Reserved</p>
-    </div>
-  </footer>
-</main>
-<div class="lightbox" id="lightbox"><img id="lightboxImg" src=""><div style="position:absolute; top:20px; right:30px; color:white; font-size:2rem; cursor:pointer;">&times;</div></div>
-
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script>
-  // ----- HIGH-QUALITY ILLUSTRATIONS ARRAY (extracted-like assets, children’s book style) -----
-  const illustrationSet = [
-    "https://images.unsplash.com/photo-1515041219749-89347f83291a?w=800&auto=format",   // child reading magical
-    "https://images.unsplash.com/photo-1502164980785-f8aa41d53611?w=800&auto=format",   // lantern glow
-    "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800&auto=format",   // star night
-    "https://images.unsplash.com/photo-1519751138087-5bf79df62d5b?w=800&auto=format",   // watercolor fantasy
-    "https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?w=800&auto=format",   // fox
-    "https://images.unsplash.com/photo-1495107334309-fcf20504a5ab?w=800&auto=format",   // moonlight forest
-    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&auto=format",   // ocean and stars
-    "https://images.unsplash.com/photo-1518895949257-7621c3c786d7?w=800&auto=format",   // paper boat
-    "https://images.unsplash.com/photo-1519791883288-dc8bd696e667?w=800&auto=format",   // child imagination
-    "https://images.unsplash.com/photo-1472162072942-cd5147eb3902?w=800&auto=format",   // lantern in hand
-    "https://images.unsplash.com/photo-1490810194309-344b3661ba39?w=800&auto=format",   // fairy tale
-  ];
+  // Navbar scroll
+  window.addEventListener('scroll', () => {
+    const nav = document.getElementById('navbar');
+    if (window.scrollY > 50) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  });
 
-  // Book cover (special)
-  const bookCover = "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=800&auto=format";
-  // Populate gallery showcases
-  function buildGalleries() {
-    const showcaseGrid = document.getElementById('bookShowcaseGrid');
-    const fullGalleryGrid = document.getElementById('fullGalleryGrid');
-    if (showcaseGrid) {
-      showcaseGrid.innerHTML = '';
-      illustrationSet.slice(0, 12).forEach((img, idx) => {
-        const card = document.createElement('div'); card.className = 'gallery-card';
-        card.innerHTML = `<img src="${img}" alt="illustration spread" loading="lazy" class="gallery-img-click"><div class="caption">✨ “The Whispering Lantern” — spread ${idx+1} · luminous moment</div>`;
-        card.querySelector('.gallery-img-click').addEventListener('click', () => openLightbox(img));
-        showcaseGrid.appendChild(card);
-      });
-    }
-    if (fullGalleryGrid) {
-      fullGalleryGrid.innerHTML = '';
-      illustrationSet.forEach((img, i) => {
-        const card = document.createElement('div'); card.className = 'gallery-card';
-        card.innerHTML = `<img src="${img}" alt="enchanted illustration" loading="lazy" class="gallery-img-click"><div class="caption">🖌️ Art from the Star Compass — scene ${i+1}</div>`;
-        card.querySelector('.gallery-img-click').addEventListener('click', () => openLightbox(img));
-        fullGalleryGrid.appendChild(card);
-      });
-    }
-  }
+  // Mobile menu
+  const hamburger = document.getElementById('hamburger'), sideMenu = document.getElementById('sideMenu'), overlay = document.getElementById('overlayBlur'), closeMenuBtn = document.getElementById('closeMenu');
+  function openMenu() { sideMenu.classList.add('active'); overlay.classList.add('active'); }
+  function closeMenuFunc() { sideMenu.classList.remove('active'); overlay.classList.remove('active'); }
+  hamburger?.addEventListener('click', openMenu);
+  closeMenuBtn?.addEventListener('click', closeMenuFunc);
+  overlay?.addEventListener('click', closeMenuFunc);
+  document.querySelectorAll('.side-nav-links a').forEach(link => link.addEventListener('click', closeMenuFunc));
 
-  // Story rows with alternating immersive text
-  function buildStoryRows() {
-    const container = document.getElementById('storyRowsContainer');
-    if (!container) return;
-    const stories = [
-      { text: "Under the silver moon, young Luna discovers a forgotten lantern inside a dusty chest. As she opens it, the room fills with floating constellations, and a fox made of starlight appears.", imgIdx: 2 },
-      { text: "Captain Nimbus, the star-fox, leads Luna through the Whispering Woods. Every leaf holds a hidden painting, and each shadow tells a tale of kindness.", imgIdx: 5 },
-      { text: "They reach the Star Compass — a great celestial map. ‘Bravery is not the absence of fear,’ whispers the lantern. ‘It is lighting your own path.’", imgIdx: 8 },
-      { text: "With each turned page, Luna learns that stories connect us all. The illustrations glow brighter as she shares her journey with a lonely friend.", imgIdx: 11 },
-    ];
-    container.innerHTML = '';
-    stories.forEach((story, index) => {
-      const row = document.createElement('div');
-      row.className = `story-row ${index % 2 === 1 ? 'reverse' : ''}`;
-      const imageSrc = illustrationSet[story.imgIdx % illustrationSet.length];
-      row.innerHTML = `
-        <div class="story-img"><img src="${imageSrc}" style="width:100%; border-radius: 32px;" loading="lazy"></div>
-        <div class="story-text"><h3>✨ Passage ${index+1}</h3><p style="font-size:1.05rem; line-height:1.5;">${story.text}</p><span class="stat-badge"><i class="fas fa-quote-left"></i> “Every whisper holds a universe.”</span></div>
-      `;
-      container.appendChild(row);
-    });
-  }
-
-  // floating illustrations on hero
-  function createFloatingImages() {
-    const floatContainer = document.getElementById('floatContainer');
-    if (!floatContainer) return;
-    for (let i = 0; i < 5; i++) {
-      const img = document.createElement('img');
-      img.src = illustrationSet[i % illustrationSet.length];
-      img.className = 'float-img';
-      const top = 5 + Math.random() * 70;
-      const left = 2 + Math.random() * 80;
-      img.style.top = `${top}%`;
-      img.style.left = `${left}%`;
-      img.style.width = `${70 + Math.random() * 60}px`;
-      img.style.opacity = '0.25';
-      img.style.animationDelay = `${Math.random() * 5}s`;
-      floatContainer.appendChild(img);
-    }
-  }
-
-  let lightboxEl = null;
-  function openLightbox(src) {
-    if (!lightboxEl) {
-      lightboxEl = document.getElementById('lightbox');
-      const closeBtn = lightboxEl.querySelector('div');
-      lightboxEl.addEventListener('click', (e) => {
-        if (e.target === lightboxEl || e.target === closeBtn) lightboxEl.classList.remove('active');
-      });
-    }
-    const imgEl = document.getElementById('lightboxImg');
-    imgEl.src = src;
-    lightboxEl.classList.add('active');
-  }
-
-  // scroll reveal intersection observer
-  const fadeElements = document.querySelectorAll('.fade-up');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('revealed');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.15, rootMargin: "0px 0px -40px 0px" });
-  fadeElements.forEach(el => observer.observe(el));
-
-  // Mobile menu & smooth scroll
-  const hamburger = document.getElementById('hamburger');
-  const mobileMenu = document.getElementById('mobileMenu');
-  const closeMenuBtn = document.getElementById('closeMenu');
-  hamburger?.addEventListener('click', () => mobileMenu.classList.add('active'));
-  closeMenuBtn?.addEventListener('click', () => mobileMenu.classList.remove('active'));
-  document.querySelectorAll('.navbar a, .mobile-menu a').forEach(anchor => {
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
-      const hash = this.getAttribute('href');
-      if (hash && hash.startsWith('#')) {
-        e.preventDefault();
-        const target = document.querySelector(hash);
-        if (target) target.scrollIntoView({ behavior: 'smooth' });
-        mobileMenu.classList.remove('active');
-      }
+      const targetId = this.getAttribute('href');
+      if (targetId === "#" || targetId === "") return;
+      const target = document.querySelector(targetId);
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
     });
   });
 
-  // Contact form demo
-  document.getElementById('contactForm')?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    alert("✨ Thank you! Your message travels with stardust. Tarek will reply with a warm story note.");
-    e.target.reset();
+  // Generate 31 images for Swiper
+  const swiperWrapper = document.getElementById('swiperWrapper');
+  const imageCount = 31;
+  const images = [];
+  for (let i = 2; i <= imageCount; i++) {
+    const slide = document.createElement('div');
+    slide.classList.add('swiper-slide');
+    const img = document.createElement('img');
+    img.src = `images/image${i}.webp`;
+    img.alt = `Book page ${i}`;
+    img.onerror = function() { this.src = 'https://placehold.co/800x1000?text=Page+'+i; };
+    slide.appendChild(img);
+    swiperWrapper.appendChild(slide);
+    images.push(img);
+  }
+
+  // Initialize Swiper (draggable, no autoplay)
+  const swiper = new Swiper('.bookSwiper', {
+    slidesPerView: 1,
+    spaceBetween: 20,
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+    breakpoints: {
+      640: { slidesPerView: 2 },
+      1024: { slidesPerView: 3 },
+    },
+    loop: false,
+    autoplay: false,
+    grabCursor: true,
   });
 
-  // Initialize everything
-  buildGalleries();
-  buildStoryRows();
-  createFloatingImages();
+  // Lightbox logic
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  const closeLightbox = document.getElementById('closeLightbox');
+  
+  function openLightbox(imgSrc) {
+    lightboxImg.src = imgSrc;
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightboxFunc() {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  // Attach click event to all carousel images (including dynamically loaded)
+  function attachLightboxToImages() {
+    document.querySelectorAll('.swiper-slide img').forEach(img => {
+      img.removeEventListener('click', img.clickHandler);
+      img.clickHandler = () => openLightbox(img.src);
+      img.addEventListener('click', img.clickHandler);
+    });
+  }
+  attachLightboxToImages();
+  // Observe changes if any (Swiper might duplicate, but safe)
+  const observer = new MutationObserver(() => attachLightboxToImages());
+  observer.observe(swiperWrapper, { childList: true, subtree: true });
+  
+  closeLightbox.addEventListener('click', closeLightboxFunc);
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightboxFunc();
+  });
 
-  // Additional dynamic tweak: set book cover
-  document.getElementById('bookCoverPreview')?.setAttribute('src', bookCover);
+  // Form handlers
+  document.getElementById('wowContactForm')?.addEventListener('submit', (e) => { e.preventDefault(); alert("Thank you, Tarek will reply within 48 hours."); e.target.reset(); });
+  document.getElementById('newsletterBtn')?.addEventListener('click', () => { let email = document.getElementById('newsletterEmail').value; if(email) alert(`Thanks ${email}! You're now on the list.`); else alert("Please enter a valid email."); });
+  document.getElementById('footerSubscribeBtn')?.addEventListener('click', () => { let email = document.getElementById('footerEmail').value; if(email) alert(`Thanks ${email}! You're now subscribed.`); else alert("Enter email address."); });
+
+  // Fade-up observer
+  const faders = document.querySelectorAll('.about-grid, .hover-cards, .chapter-grid, .journey-steps, .quote-block, .carousel-section, .memoir-luxury-card, .contact-wow');
+  const obs = new IntersectionObserver((entries) => { entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('appear'); }); }, { threshold: 0.1 });
+  faders.forEach(el => { el.classList.add('fade-up'); obs.observe(el); });
 </script>
 </body>
 </html>
